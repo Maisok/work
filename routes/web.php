@@ -56,7 +56,7 @@ Route::resource('adverts', AdvertsController::class);
 
 // Ресурсный маршрут для контроллера объявлений пользователей в ЛК
 Route::middleware(['auth'])->group(function () {
-Route::get('/my-adverts', [AdvertsController::class, 'myAdverts'])->name('adverts.my_adverts');
+    Route::get('/my-adverts', [AdvertsController::class, 'myAdverts'])->name('adverts.my_adverts');
 });
 
 
@@ -200,8 +200,10 @@ Route::post('/save-tariff', [TariffController::class, 'save'])->name('save.tarif
 //Импорт товаров
 
 Route::post('/admin/cars/import', [CarImportController::class, 'import'])->name('cars.import');
-    Route::view("/admin/cars/import", 'cars.import')->name('cars.import.form');
-    
-        //Импорт с конвертацией
+Route::view("/admin/cars/import", 'cars.import')->name('cars.import.form');
 
-    Route::post('/convert-price-list', [ConverterSetController::class, 'convertPriceList'])->name('convert.price.list');
+//Импорт с конвертацией
+
+Route::post('/convert-price-list', [ConverterSetController::class, 'convertPriceList'])->name('convert.price.list');
+
+Route::view('/fromlist', 'adverts.createFromList');

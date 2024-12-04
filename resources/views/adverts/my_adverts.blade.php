@@ -1,8 +1,77 @@
-@extends('layouts.app')
+<style>
+.modal {
+    display: none; /* Скрываем модальное окно по умолчанию */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+}
 
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    position: relative;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-open {
+    overflow: hidden; /* Блокируем скролл страницы */
+}
+
+#modalMainImg {
+    width: 100%;
+    height: 256px; /* Фиксированная высота */
+    object-fit: contain; /* Вставка по размеру с полями */
+    border-radius: 0.5rem;
+}
+
+#mainImgPlaceholder {
+    display: none; /* Скрываем заполнитель по умолчанию */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f3f4f6;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9ca3af;
+    font-size: 1rem;
+}
+</style>
+
+@extends('layouts.app')
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/my_adverts.css') }}"> <!-- Подключение основного CSS-файла -->
 <script src="{{ asset('js/my_adverts.js') }}" defer></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 @include('components.header-seller')
 
 <div class="container mx-auto p-4 bg-white rounded shadow-md overflow-x-auto mt-20  mb-20">
@@ -284,21 +353,33 @@
     </div>
 </div>
 
-<!-- Модальное окно (окно подробностями о товаре) -->
+
+
 <div id="viewModal" class="modal fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
-    <div class="modal-content bg-white p-4 rounded-lg w-full md:w-3/4 lg:w-1/2">
-        <span class="close text-gray-500 text-2xl font-bold float-right cursor-pointer">&times;</span>
-        <div class="modal-images flex flex-wrap items-center">
-            <img id="modalMainImg" src="" class="w-full md:w-1/2 h-auto object-cover mb-4">
-            <div class="additional-images flex flex-col w-full md:w-1/2">
-                <img id="modalAdditionalImg1" src="" class="w-full h-auto object-cover mb-2">
-                <img id="modalAdditionalImg2" src="" class="w-full h-auto object-cover mb-2">
-                <img id="modalAdditionalImg3" src="" class="w-full h-auto object-cover mb-2">
+    <div class="relative bg-white p-4 rounded-lg shadow-lg max-w-4xl w-full">
+        <button class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 close">
+            <i class="fas fa-times text-2xl"></i>
+        </button>
+        <div class="flex flex-col md:flex-row">
+            <div class="md:w-1/2">
+                <div class="relative">
+                    <img id="modalMainImg" src="" alt="Основное фото" class="w-full h-64 object-contain rounded-lg cursor-pointer">
+                </div>
+            </div>
+            <div class="md:w-1/2 md:pl-4 mt-4 md:mt-0">
+                <p><strong>id товара:</strong> <span id="modalId"></span></p>
+                <p><strong>Наименование:</strong> <span id="modalProductName"></span></p>
+                <p><strong>Марка:</strong> <span id="modalBrand"></span></p>
+                <p><strong>Модель:</strong> <span id="modalModel"></span></p>
+                <p><strong>Кузов:</strong> <span id="modalBody"></span></p>
+                <p><strong>Двигатель:</strong> <span id="modalEngine"></span></p>
+                <p><strong>Номер:</strong> <span id="modalNumber"></span></p>
+                <p><strong>Цена:</strong> <span id="modalPrice"></span></p>
             </div>
         </div>
-        <p id="modalInfo" class="mt-4"></p>
-        <div class="addToCartContainer mt-4">
-            <button id="addToCartBtn" class="p-2 bg-blue-500 text-white rounded-md">Добавить в корзину</button>
+        <div class="flex mt-4 space-x-2" id="additionalImagesContainer"></div>
+        <div class="flex justify-end mt-4">
+            <button id="addToCartBtn" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Добавить в корзину</button>
             <p id="cartNotification" class="text-sm mt-2"></p>
         </div>
     </div>

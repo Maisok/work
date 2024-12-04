@@ -1,19 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Чат</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+</head>
+<body class="">
 @extends('layouts.app')
 @include('components.header-seller')
-@section('content')
-<div class="container mx-auto mt-20 mb-24">
+
+<div class=" mt-20 mb-24">
     <div class="flex flex-col md:flex-row">
         @include('components.chat-list', ['userChats' => $userChats]) <!-- Подключаем компонент список чатов -->
 
-        <div class="w-full md:w-3/4 p-4"> <!-- Чат занимает всю ширину на маленьких экранах и 3/4 на больших -->
+        <div class="w-full p-4"> <!-- Чат занимает всю ширину на всех экранах -->
             @if($chat && $advert) 
-                <h5 class="text-xl font-semibold mb-4">
-                    <a href="{{ route('advert.show', ['advert' => $advert->id]) }}" class="text-blue-500 hover:underline">
-                        {{ $advert->product_name }} <!-- Здесь отображается название объявления -->
-                    </a>
-                </h5>
-
-                <div id="chat-messages" class="chat-messages border p-4 h-96 overflow-y-scroll">
+                <!-- Chat Header -->
+                <div class="flex items-center justify-between p-4 border-b border-gray-300 w-full">
+                    <div class="flex items-center space-x-4">
+                        <img alt="Product image" class="w-12 h-12 rounded-full" src="{{ $advert->image_url ?: asset('images/noimage.jpg') }}" width="50" height="50">
+                        <div>
+                            <h2 class="text-xl font-bold">
+                                <a href="{{ route('advert.show', ['advert' => $advert->id]) }}" class="text-blue-500 hover:underline">
+                                    {{ $advert->product_name }} <!-- Здесь отображается название объявления -->
+                                </a>
+                            </h2>
+                            <p class="text-lg text-gray-500">
+                                {{ $advert->price }}₽
+                            </p>
+                        </div>
+                    </div>
+                    <span class="text-lg text-gray-500">
+                        {{ $chat->created_at->format('d.m.Y') }}
+                    </span>
+                </div>
+        
+                <!-- Chat Messages -->
+                <div id="chat-messages" class="flex-1 p-4 space-y-4 overflow-y-auto h-96 w-full">
                     @foreach($messages as $message)
                         @if(!isset($lastDate) || $lastDate != $message->created_at->toDateString())
                             <div class="message-date text-center text-gray-500 text-sm my-2">{{ $message->created_at->format('d.m.Y') }}</div>
@@ -21,22 +48,27 @@
                                 $lastDate = $message->created_at->toDateString();
                             @endphp
                         @endif
-                        <div class="message @if($message->user_id === auth()->id()) sent @else received @endif">
-                        <img src="{{ $message->user->avatar_url ?: asset('images/noava.jpg') }}" alt="Аватар" class="w-10 h-10 rounded-full avatar">
-                            <div class="message-content">
-                                <strong>{{ $message->user->username }}</strong> {{ $message->message }}
-                               
+                        <div class="message @if($message->user_id === auth()->id()) justify-end @else justify-start @endif">
+                            <div class="flex items-start space-x-4">
+                                <img alt="User avatar" class="w-12 h-12 rounded-full" src="{{ $message->user->avatar_url ?: asset('images/noava.jpg') }}" width="50" height="50">
+                                <div class="bg-gray-100 p-4 rounded-lg @if($message->user_id === auth()->id()) bg-green-100 @endif">
+                                    <p>
+                                        <strong>{{ $message->user->username }}</strong> {{ $message->message }}
+                                    </p>
+                                    <span class="text-sm text-gray-500">
+                                        {{ $message->created_at->format('H:i') }}
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     @endforeach
                 </div>
-                
-                <form action="{{ route('chat.send', ['chat' => $chat]) }}" method="POST" class="mt-3">
+        
+                <!-- Chat Input -->
+                <form action="{{ route('chat.send', ['chat' => $chat]) }}" method="POST" class="p-4 border-t border-gray-300 flex items-center space-x-4">
                     @csrf
-                    <div class="flex">
-                        <input type="text" name="message" class="form-control border rounded-l-md p-2 w-full" placeholder="Введите сообщение" required>
-                        <button class="btn btn-primary bg-blue-500 text-white rounded-r-md px-4 py-2" type="submit">Отправить</button>
-                    </div>
+                    <input type="text" name="message" class="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Введите сообщение" required>
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-lg" type="submit">Отправить</button>
                 </form>
             @else
                 <p class="text-gray-600">Выберите чат из списка.</p>
@@ -159,4 +191,6 @@ $(document).ready(function() {
     markMessagesAsRead('{{ $chat->id }}');
 });
 </script>
-@endsection
+
+</body>
+</html>

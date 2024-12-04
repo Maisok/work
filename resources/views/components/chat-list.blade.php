@@ -1,32 +1,31 @@
-<div class="w-full md:w-1/4 p-4 chat-list"> <!-- Список чатов занимает всю ширину на маленьких экранах и 1/4 на больших -->
-    <h6 class="text-lg font-semibold mb-4">Чаты</h6>
-    <ul class="space-y-2">
-        <!-- Отображаем чаты -->
+<div class="w-full md:w-1/4 p-4 chat-list h-screen">
+    <!-- Список чатов занимает всю ширину на маленьких экранах и 1/4 на больших -->
+    <h2 class="text-xl font-bold mb-4">
+        Чаты
+    </h2>
+    <div class="space-y-4">
+        <!-- Chat Item -->
         @foreach($userChats as $userChat)
-            <li class="p-3 border rounded-md chat-item">
-                <a href="{{ route('chat.show', ['chat' => $userChat]) }}" class="flex flex-col items-start space-y-1">
-                    <!-- Отображаем аватар пользователя -->
-                    <div class="flex items-center space-x-2 w-full">
-                         <img src="{{ ($userChat->user1_id == auth()->id() ? $userChat->user2->avatar_url : $userChat->user1->avatar_url) ?: asset('images/noava.jpg') }}" alt="Аватар" class="w-10 h-10 rounded-full avatar">
-                         <!-- Отображаем имя пользователя жирным черным шрифтом -->
-                        <strong class="text-black">{{ $userChat->user1_id == auth()->id() ? $userChat->user2->username : $userChat->user1->username }}</strong>
-                        <!-- Отображаем счетчик непрочитанных сообщений -->
-                        @if($userChat->unread_count > 0)
-                            <span class="bg-blue-500 text-white rounded-full px-2 py-1 text-xs">{{ $userChat->unread_count }}</span>
-                        @endif
-                </div>
-
-
-                    <!-- Отображаем текст последнего сообщения -->
-                    <div class="w-full overflow-wrap break-words">
-                        @if($userChat->last_message)
-                            {{ Str::limit($userChat->last_message->message, 20, '...') }}
-                        @else
-                            Нет сообщений
-                        @endif
+            <div class="flex items-center space-x-4">
+                <img src="{{ ($userChat->user1_id == auth()->id() ? $userChat->user2->avatar_url : $userChat->user1->avatar_url) ?: asset('images/noava.jpg') }}" alt="Аватар" class="w-12 h-12 rounded-full">
+                <div class="flex-1">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold">
+                            {{ $userChat->user1_id == auth()->id() ? $userChat->user2->username : $userChat->user1->username }}
+                        </h3>
+                        <span class="text-sm text-gray-500">
+                            {{ $userChat->last_message ? $userChat->last_message->created_at->format('H:i') : '10:15' }}
+                        </span>
                     </div>
-                </a>
-            </li>
+                    <p class="text-sm text-gray-500">
+                        Название товара по которому диалог
+                    </p>
+                    <p class="text-sm text-gray-400">
+                        {{ $userChat->last_message ? Str::limit($userChat->last_message->message, 20, '...') : 'текст последнего сообщения' }}
+                    </p>
+                </div>
+            </div>
+            <hr class="border-gray-300"/>
         @endforeach
-    </ul>
+    </div>
 </div>
