@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Все товары</title>
     <script src="https://cdn.tailwindcss.com"></script>
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
 </head>
 <body class="font-sans flex flex-col items-center">
    
@@ -19,9 +20,20 @@
 <p class="hidden md:block"></p>
 
 <h2 class="text-2xl font-bold mt-8 mb-4 text-center">Поиск запчастей:</h2>
-@include('components.search-form') <!-- Подключение формы поиска -->
+@include('components.search-form') <!-- Подключение формы поиска -->    
 
-<div class="container mx-auto w-full max-w-screen-2xl">        
+<div class="flex justify-center items-center space-x-4 mt-4 mb-4 sm:hidden px-4">
+    <button class="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg w-1/2">
+        <i class="fas fa-th-large mr-2"></i>
+        Списком
+    </button>
+    <button class="flex items-center justify-center px-4 py-2 bg-white text-gray-600 border rounded-lg w-1/2">
+        <i class="fas fa-map mr-2"></i>
+        Показать на карте
+    </button>
+</div>
+
+<div class="container mx-auto w-full max-w-screen-2xl">
     @if($adverts->isEmpty())
         <p class="text-center text-lg mt-8">Нет доступных объявлений.</p>
     @else
@@ -32,40 +44,82 @@
             });
         @endphp
 
-        @foreach($filteredAdverts as $advert)
-        <div class="bg-white rounded-lg shadow-md flex max-w-5xl p-4 mt-8 cursor-pointer transition-colors duration-300 hover:bg-blue-100" onclick="location.href='{{ route('adverts.show', $advert->id) }}'" tabindex="0" role="button">
-            <!-- Вывод главного фото -->
-            @if ($advert->main_photo_url)
-                <img src="{{ $advert->main_photo_url }}" alt="{{ $advert->product_name }} - Главное фото" class="rounded-lg w-1/5 object-cover" >
-            @else
-                <img src="{{ asset('images/dontfoto.jpg') }}" alt="Фото отсутствует" class="rounded-lg w-1/5 object-cover">
-            @endif
-        
-            <div class="flex flex-col justify-between w-full pl-4">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h2 class="text-xl font-semibold">{{ $advert->product_name }}</h2>
-                        <p class="beg bg-gray-200 px-3 py-1 w-24 text-sm rounded-lg text-center">{{ $advert->number }}</p>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-xl font-semibold">{{ $advert->price }} ₽</p>
-                        <p class="text-red-500">{{ $advert->user->userAddress->city ?? 'Не указан' }}</p>
-                    </div>
+        <!-- Для телефонов -->
+        <div class="grid grid-cols-2 sm:grid-cols-2 gap-4 sm:hidden">
+            @foreach($filteredAdverts as $advert)
+            <div class="bg-white rounded-lg shadow p-4">
+                <div class="relative">
+                    @if ($advert->main_photo_url)
+                        <img src="{{ $advert->main_photo_url }}" alt="{{ $advert->product_name }} - Главное фото" class="w-full h-48 object-cover rounded-lg">
+                    @else
+                        <img src="{{ asset('images/dontfoto.jpg') }}" alt="Фото отсутствует" class="w-full h-48 object-cover rounded-lg">
+                    @endif
+                    <span class="absolute top-2 right-2 bg-yellow-200 text-yellow-800 text-xs font-semibold px-2 py-1 rounded">
+                        В наличии
+                    </span>
                 </div>
-                <div class="flex space-x-2 mt-4 w-full justify-around">
-                    <span class="bg-yellow-200 text-yellow-800 text-sm font-semibold px-2.5 py-0.5 rounded">{{ $advert->brand }}</span>
-                    <span class="bg-yellow-200 text-yellow-800 text-sm font-semibold px-2.5 py-0.5 rounded">{{ $advert->model }}</span>
-                    <span class="bg-yellow-200 text-yellow-800 text-sm font-semibold px-2.5 py-0.5 rounded">{{ $advert->body }}</span>
-                    <span class="bg-yellow-200 text-yellow-800 text-sm font-semibold px-2.5 py-0.5 rounded">{{ $advert->engine }}</span>
+                <div class="mt-4">
+                    <div class="text-lg font-bold">
+                        {{ $advert->product_name }}
+                    </div>
+                    <div class="text-xl text-black font-semibold">
+                        {{ $advert->price }} ₽
+                    </div>
+                    <div class="flex items-center text-gray-500 text-sm mt-2">
+                        <i class="fas fa-car mr-2"></i>
+                        <span>{{ $advert->brand }}</span>
+                        <span class="mx-1">|</span>
+                        <span>{{ $advert->model }}</span>
+                        <span class="mx-1">|</span>
+                        <span >{{ $advert->year }}</span>
+                    </div>
+                    <div class="text-red-500 font-semibold mt-2">
+                        {{ $advert->user->userAddress->city ?? 'Не указан' }}
+                    </div>
+                    <div class="text-gray-500 text-sm">
+                        сегодня в 12:00
+                    </div>
                 </div>
             </div>
+            @endforeach
         </div>
-@endforeach
-    <div class="h-24">
-        @include('components.pagination', ['adverts' => $adverts])
-    </div>
-        <!-- Подключение пагинации -->
-        
+
+        <!-- Для больших и средних экранов -->
+        <div class="hidden sm:block">
+            @foreach($filteredAdverts as $advert)
+            <div class="bg-white rounded-lg shadow-md flex max-w-5xl p-4 mt-8 cursor-pointer transition-colors duration-300 hover:bg-blue-100" onclick="location.href='{{ route('adverts.show', $advert->id) }}'" tabindex="0" role="button">
+                <!-- Вывод главного фото -->
+                @if ($advert->main_photo_url)
+                    <img src="{{ $advert->main_photo_url }}" alt="{{ $advert->product_name }} - Главное фото" class="rounded-lg w-1/5 object-cover">
+                @else
+                    <img src="{{ asset('images/dontfoto.jpg') }}" alt="Фото отсутствует" class="rounded-lg w-1/5 object-cover">
+                @endif
+            
+                <div class="flex flex-col justify-between w-full pl-4">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h2 class="text-xl font-semibold">{{ $advert->product_name }}</h2>
+                            <p class="beg bg-gray-200 px-3 py-1 w-24 text-sm rounded-lg text-center">{{ $advert->number }}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xl font-semibold">{{ $advert->price }} ₽</p>
+                            <p class="text-red-500">{{ $advert->user->userAddress->city ?? 'Не указан' }}</p>
+                        </div>
+                    </div>
+                    <div class="flex space-x-2 mt-4 w-full justify-around">
+                        <span class="bg-yellow-200 text-yellow-800 text-sm font-semibold px-2.5 py-0.5 rounded">{{ $advert->brand }}</span>
+                        <span class="bg-yellow-200 text-yellow-800 text-sm font-semibold px-2.5 py-0.5 rounded">{{ $advert->model }}</span>
+                        <span class="bg-yellow-200 text-yellow-800 text-sm font-semibold px-2.5 py-0.5 rounded">{{ $advert->body }}</span>
+                        <span class="bg-yellow-200 text-yellow-800 text-sm font-semibold px-2.5 py-0.5 rounded">{{ $advert->engine }}</span>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+
+        <div class="h-24">
+            @include('components.pagination', ['adverts' => $adverts])
+        </div>
     @endif
 </div>
 </body>
