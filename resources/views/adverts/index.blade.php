@@ -20,18 +20,9 @@
 <p class="hidden md:block"></p>
 
 <h2 class="text-2xl font-bold mt-8 mb-4 text-center">Поиск запчастей:</h2>
-@include('components.search-form') <!-- Подключение формы поиска -->    
+@include('components.search-form')  
 
-<div class="flex justify-center items-center space-x-4 mt-4 mb-4 sm:hidden px-4">
-    <button class="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg w-1/2">
-        <i class="fas fa-th-large mr-2"></i>
-        Списком
-    </button>
-    <button class="flex items-center justify-center px-4 py-2 bg-white text-gray-600 border rounded-lg w-1/2">
-        <i class="fas fa-map mr-2"></i>
-        Показать на карте
-    </button>
-</div>
+
 
 <div class="container mx-auto w-full max-w-screen-2xl">
     @if($adverts->isEmpty())
