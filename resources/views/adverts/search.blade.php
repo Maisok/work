@@ -10,7 +10,7 @@
         /* Добавляем стили для отображения карты на весь экран */
         #map.full-screen {
             position: fixed;
-            top: 0;
+            top: 64px; /* Высота кнопок */
             left: 0;
             width: 100%;
             height: calc(100% - 64px); /* Учитываем высоту кнопок */
@@ -20,14 +20,14 @@
         /* Стили для кнопок */
         .buttons-container {
             position: fixed;
-            bottom: 0;
+            top: 0;
             left: 0;
             width: 100%;
             display: flex;
             justify-content: center;
             background-color: white;
             padding: 16px;
-            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             z-index: 1001;
         }
     </style>
@@ -79,7 +79,7 @@
 <div id="listView" class="container mx-auto mt-8 mb-20">
     @if($adverts->count())
         <!-- Для телефонов -->
-        <div class="grid grid-cols-2 gap-4 sm:hidden">
+        <div id="phoneListView" class="grid grid-cols-2 gap-4 sm:hidden">
             @foreach($adverts as $advert)
             <div class="bg-white rounded-lg shadow p-4 mt-8 cursor-pointer transition-colors duration-300 hover:bg-blue-100" onclick="location.href='{{ route('adverts.show', $advert->id) }}'" tabindex="0" role="button">
                 <div class="relative">
@@ -152,7 +152,7 @@
         </div>
 
         <!-- Подключение пагинации -->
-        <div class="mt-8">
+        <div id="pagination" class="mt-8">
             @include('components.pagination', ['adverts' => $adverts])
         </div>
     @else
@@ -246,9 +246,10 @@
 
     // JavaScript для переключения отображения
     document.getElementById('listButton').addEventListener('click', function() {
-        document.getElementById('listView').classList.remove('hidden');
-        document.getElementById('map').classList.add('hidden');
+        document.getElementById('phoneListView').classList.remove('hidden');
         document.getElementById('map').classList.remove('full-screen');
+        document.getElementById('map').classList.add('hidden');
+        document.getElementById('pagination').classList.remove('hidden');
         document.getElementById('listButton').classList.add('bg-blue-600', 'text-white');
         document.getElementById('listButton').classList.remove('bg-white', 'text-gray-600', 'border');
         document.getElementById('mapButton').classList.remove('bg-blue-600', 'text-white');
@@ -256,9 +257,10 @@
     });
 
     document.getElementById('mapButton').addEventListener('click', function() {
-        document.getElementById('listView').classList.add('hidden');
+        document.getElementById('phoneListView').classList.add('hidden');
         document.getElementById('map').classList.remove('hidden');
         document.getElementById('map').classList.add('full-screen');
+        document.getElementById('pagination').classList.add('hidden');
         document.getElementById('mapButton').classList.add('bg-blue-600', 'text-white');
         document.getElementById('mapButton').classList.remove('bg-white', 'text-gray-600', 'border');
         document.getElementById('listButton').classList.remove('bg-blue-600', 'text-white');
