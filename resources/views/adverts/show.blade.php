@@ -26,10 +26,10 @@
         <h1 class="text-3xl font-semibold mb-4">{{ $advert->product_name }}</h1>
         <div class="flex flex-col lg:flex-row">
             <div class="lg:w-2/3">
-                <div class="bg-gray-100 p-4 rounded-lg mb-4" style="width: 800px; height: 600px;">
-                    <img id="main-photo" alt="Изображение товара" class="w-full h-full object-cover" src="{{ $advert->main_photo_url }}"/>
+                <div class="bg-gray-100 p-4 rounded-lg mb-4">
+                    <img id="main-photo" alt="Изображение товара" class="w-full h-auto object-cover" src="{{ $advert->main_photo_url }}"/>
                 </div>
-                <div class="flex space-x-2">
+                <div class="flex space-x-2 overflow-x-auto">
                     @if ($advert->additional_photo_url_1)
                         <img alt="Миниатюра 1" class="w-32 h-32 bg-gray-100 p-2 rounded-lg object-cover cursor-pointer" src="{{ $advert->additional_photo_url_1 }}" onclick="swapImage(this)"/>
                     @endif
@@ -41,8 +41,8 @@
                     @endif
                 </div>
             </div>
-            <div class="lg:w-1/3 lg:pl-8">
-                <div class="bg-white p-6 rounded-lg shadow-lg w-80">
+            <div class="lg:w-1/3 lg:pl-8 mt-4 lg:mt-0">
+                <div class="bg-white p-6 rounded-lg shadow-lg">
                     <div class="flex justify-between items-center">
                         <div>
                             <p class="text-3xl font-bold">{{ $advert->price }} ₽</p>
@@ -69,10 +69,6 @@
                         <div class="flex justify-center">
                             <img alt="Логотип {{ $advert->user->username }}" class="rounded-full w-24 h-24 object-cover" src=""/>
                         </div>
-                    </div>
-                    <div class="mt-6">
-                        <button class="w-full bg-blue-500 text-white py-2 rounded-lg text-lg">Показать телефон</button>
-                        <button class="w-full bg-green-500 text-white py-2 rounded-lg text-lg mt-2">Написать продавцу</button>
                     </div>
                 </div>
             </div>
@@ -144,28 +140,30 @@
                     <a href="#" class="text-blue-600 text-lg">Fit Aria</a>
                 </div>
             </div>
-            <table class="w-full text-base text-left">
-                <thead>
-                    <tr class="bg-gray-100">
-                        <th class="p-2">Марка</th>
-                        <th class="p-2">Модель</th>
-                        <th class="p-2">Поколение</th>
-                        <th class="p-2">Период выпуска</th>
-                        <th class="p-2">Модификация</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($relatedCars as $car)
-                        <tr class="border-b">
-                            <td class="p-2">{{ $car['brand'] }}</td>
-                            <td class="p-2">{{ $car['model'] }}</td>
-                            <td class="p-2">{{ $car['generation'] }}</td>
-                            <td class="p-2">{{ $car['year_from'] }} - {{ $car['year_before'] }}</td>
-                            <td class="p-2">{{ $car['modification'] }}</td>
+            <div class="overflow-x-auto">
+                <table class="w-full text-base text-left">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="p-2 whitespace-nowrap">Марка</th>
+                            <th class="p-2 whitespace-nowrap">Модель</th>
+                            <th class="p-2 whitespace-nowrap">Поколение</th>
+                            <th class="p-2 whitespace-nowrap">Период выпуска</th>
+                            <th class="p-2 whitespace-nowrap">Модификация</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($relatedCars as $car)
+                            <tr class="border-b">
+                                <td class="p-2 truncate" data-fulltext="{{ $car['brand'] }}">{{ $car['brand'] }}</td>
+                                <td class="p-2 truncate" data-fulltext="{{ $car['model'] }}">{{ $car['model'] }}</td>
+                                <td class="p-2 truncate" data-fulltext="{{ $car['generation'] }}">{{ $car['generation'] }}</td>
+                                <td class="p-2 truncate" data-fulltext="{{ $car['year_from'] }} - {{ $car['year_before'] }}">{{ $car['year_from'] }} - {{ $car['year_before'] }}</td>
+                                <td class="p-2 truncate" data-fulltext="{{ $car['modification'] }}">{{ $car['modification'] }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div class="mt-8">
             <h2 class="text-2xl font-semibold mb-4">Доставка и оплата</h2>
@@ -196,19 +194,17 @@
                         {{ $advert->user->userAddress->address_line ?? 'Не указан' }}
                     </div>
                 </div>
-                <div class="ml-auto flex space-x-4">
-                    <button class="bg-blue-500 text-white px-4 py-2 rounded text-lg">
-                        Показать телефон
-                    </button>
-                    <button class="bg-green-500 text-white px-4 py-2 rounded text-lg">
-                        Написать продавцу
-                    </button>
-                </div>
             </div>
         </div>
         <div class="mt-8">
             <div id="map" class="w-full h-96 mt-4 mb-12"></div>
         </div>
+    </div>
+
+    <!-- Фиксированные кнопки на мобильных устройствах -->
+    <div class="fixed bottom-10 left-0 w-full bg-white shadow-lg p-4 flex justify-between space-x-4 md:hidden">
+        <button class="w-1/2 bg-blue-500 text-white py-2 rounded-lg text-lg">Показать телефон</button>
+        <button class="w-1/2 bg-green-500 text-white py-2 rounded-lg text-lg">Написать продавцу</button>
     </div>
 
     <script>
@@ -275,6 +271,17 @@
             mainPhoto.src = thumbnailSrc;
             thumbnail.src = mainPhotoSrc;
         }
+
+        document.querySelectorAll('td.truncate').forEach(function(cell) {
+            cell.addEventListener('click', function() {
+                const fullText = cell.getAttribute('data-fulltext');
+                if (cell.textContent !== fullText) {
+                    cell.textContent = fullText;
+                } else {
+                    cell.textContent = cell.textContent.slice(0, 20) + '...';
+                }
+            });
+        });
     </script>
 </body>
 </html>
