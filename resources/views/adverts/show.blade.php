@@ -8,6 +8,21 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=9fbfa4df-7869-44a3-ae8e-0ebc49545ea9" type="text/javascript"></script>
+    <style>
+        @media (max-width: 767px) {
+            .fixed-buttons {
+                position: fixed;
+    
+                left: 0;
+                width: 100%;
+                background-color: white;
+                box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+                padding: 1rem;
+                display: flex;
+                justify-content: space-between;
+            }
+        }
+    </style>
 </head>
 <body class="text-gray-800">
     @include('components.header-seller')
@@ -69,6 +84,10 @@
                         <div class="flex justify-center">
                             <img alt="Логотип {{ $advert->user->username }}" class="rounded-full w-24 h-24 object-cover" src=""/>
                         </div>
+                    </div>
+                    <div class="mt-6 hidden md:block">
+                        <button class="w-full bg-blue-500 text-white py-2 rounded-lg text-lg">Показать телефон</button>
+                        <button class="w-full bg-green-500 text-white py-2 rounded-lg text-lg mt-2">Написать продавцу</button>
                     </div>
                 </div>
             </div>
@@ -194,6 +213,14 @@
                         {{ $advert->user->userAddress->address_line ?? 'Не указан' }}
                     </div>
                 </div>
+                <div class="ml-auto flex space-x-4 hidden md:flex">
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded text-lg">
+                        Показать телефон
+                    </button>
+                    <button class="bg-green-500 text-white px-4 py-2 rounded text-lg">
+                        Написать продавцу
+                    </button>
+                </div>
             </div>
         </div>
         <div class="mt-8">
@@ -202,7 +229,7 @@
     </div>
 
     <!-- Фиксированные кнопки на мобильных устройствах -->
-    <div class="fixed bottom-10 left-0 w-full bg-white shadow-lg p-4 flex justify-between space-x-4 md:hidden">
+    <div class="fixed-buttons bottom-10 md:hidden">
         <button class="w-1/2 bg-blue-500 text-white py-2 rounded-lg text-lg">Показать телефон</button>
         <button class="w-1/2 bg-green-500 text-white py-2 rounded-lg text-lg">Написать продавцу</button>
     </div>

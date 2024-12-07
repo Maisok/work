@@ -40,9 +40,31 @@
 <div class="flex justify-center mt-8 hidden sm:block">
     @include('components.search-form') <!-- Подключение формы поиска -->
 </div>
-<h3 class="text-2xl font-bold mt-8 mb-4 text-center">Результаты поиска:</h3>
 
-<!-- Фильтры по параметру engine -->
+<!-- Фильтры по параметру engine для средних экранов -->
+<div class="filters bg-white p-4 rounded-lg shadow-md w-full mt-4 hidden md:block 2xl:hidden">
+    <h4 class="text-xl font-semibold mb-4">Фильтры по двигателю:</h4>
+    <form method="GET" action="{{ route('adverts.search') }}"> <!-- Укажите правильный маршрут для обработки формы -->
+        @foreach($engines as $engine)
+            <div>
+                <input type="checkbox" name="engines[]" value="{{ $engine }}" id="engine-{{ $engine }}"
+                    {{ in_array($engine, request('engines', [])) || !request()->has('engines') ? 'checked' : '' }}
+                    class="mr-2">
+                <label for="engine-{{ $engine }}" class="text-lg">{{ !empty($engine) ? ucfirst($engine) : 'Не указан' }}</label>
+            </div>
+        @endforeach
+
+        <!-- Сохраняем другие параметры запроса -->
+        <input type="hidden" name="search_query" value="{{ request('search_query') }}">
+        <input type="hidden" name="brand" value="{{ request('brand') }}">
+        <input type="hidden" name="model" value="{{ request('model') }}">
+        <input type="hidden" name="year" value="{{ request('year') }}">
+
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg mt-4">Применить фильтры</button>
+    </form>
+</div>
+
+<!-- Фильтры по параметру engine для больших экранов -->
 <div class="filters bg-white p-4 rounded-lg shadow-md w-80 absolute right-0 mt-4 mr-32 hidden 2xl:block">
     <h4 class="text-xl font-semibold mb-4">Фильтры по двигателю:</h4>
     <form method="GET" action="{{ route('adverts.search') }}"> <!-- Укажите правильный маршрут для обработки формы -->
@@ -64,6 +86,8 @@
         <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg mt-4">Применить фильтры</button>
     </form>
 </div>
+
+<h3 class="text-2xl font-bold mt-8 mb-4 text-center">Результаты поиска:</h3>
 
 <div class="flex justify-center items-center space-x-4 mt-4 mb-4 sm:hidden px-4">
     <button id="listButton" class="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg w-1/2">
