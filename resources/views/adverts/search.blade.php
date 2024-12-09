@@ -10,10 +10,10 @@
         /* Добавляем стили для отображения карты на весь экран */
         #map.full-screen {
             position: fixed;
-            top: 64px; /* Высота кнопок */
+            top: 64px; /* Высота шапки */
             left: 0;
             width: 100%;
-            height: calc(100% - 64px); /* Учитываем высоту кнопок */
+            height: calc(100% - 64px); /* Высота карты без учета шапки */
             z-index: 1000;
         }
 
@@ -29,6 +29,23 @@
             padding: 16px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             z-index: 1001;
+        }
+
+        /* Стили для отображения меню на весь экран */
+        #fullScreenMenu, #filterMenu {
+            position: fixed;
+            top: 64px; /* Высота шапки */
+            left: 0;
+            width: 100%;
+            height: calc(100% - 64px); /* Высота меню без учета шапки */
+            background-color: white;
+            z-index: 1000;
+            overflow-y: auto;
+            display: none; /* Скрываем меню по умолчанию */
+        }
+
+        #fullScreenMenu.active, #filterMenu.active {
+            display: block; /* Показываем меню, когда оно активно */
         }
     </style>
 </head>
@@ -89,6 +106,17 @@
 
 <h3 class="text-2xl font-bold mt-8 mb-4 text-center">Результаты поиска:</h3>
 
+<div class="flex justify-center items-center space-x-4 mt-4 mb-4 sm:hidden px-4 hidden-on-map">
+    <button id="sortButton" class="flex items-center justify-center px-4 py-2 bg-gray-700 text-white rounded-md w-1/2">
+        <i class="fas fa-sort mr-2"></i>
+        Сортировка 
+    </button>
+    <button id="filterButton" class="flex items-center justify-center px-4 py-2 bg-gray-700 text-white rounded-md w-1/2">
+        <i class="fas fa-filter mr-2"></i>
+        Фильтры
+    </button>
+</div>
+
 <div class="flex justify-center items-center space-x-4 mt-4 mb-4 sm:hidden px-4">
     <button id="listButton" class="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg w-1/2">
         <i class="fas fa-th-large mr-2"></i>
@@ -98,6 +126,144 @@
         <i class="fas fa-map mr-2"></i>
         Показать на карте
     </button>
+</div>
+
+
+
+<!-- Меню на весь экран -->
+<div id="fullScreenMenu" class="hidden w-full">
+    <div class="menu-content w-full">
+        <button id="closeMenuButton" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="bg-white p-4 rounded-lg shadow-lg w-full">
+            <h2 class="text-lg font-semibold mb-4">Фильтры</h2>
+            
+            <div class="mb-4">
+                <h3 class="font-medium mb-2">Состояние детали</h3>
+                <div class="flex items-center mb-2">
+                    <input type="radio" id="new" name="condition" class="mr-2">
+                    <label for="new">Новая</label>
+                </div>
+                <div class="flex items-center mb-2">
+                    <input type="radio" id="used" name="condition" class="mr-2">
+                    <label for="used">Б/У деталь</label>
+                </div>
+                <div class="flex items-center mb-2">
+                    <input type="radio" id="unspecified" name="condition" class="mr-2">
+                    <label for="unspecified">Не указано</label>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <h3 class="font-medium mb-2">Цена</h3>
+                <div class="flex space-x-2">
+                    <input type="text" placeholder="Цена от" class="border rounded p-2 w-full">
+                    <input type="text" placeholder="до" class="border rounded p-2 w-full">
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <h3 class="font-medium mb-2">Фото</h3>
+                <div class="flex items-center mb-2">
+                    <input type="checkbox" id="photo" class="mr-2">
+                    <label for="photo">Только с фото</label>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <h3 class="font-medium mb-2">Доставка</h3>
+                <div class="flex items-center mb-2">
+                    <input type="radio" id="pickup" name="delivery" class="mr-2">
+                    <label for="pickup">С самовывозом</label>
+                </div>
+                <div class="flex items-center mb-2">
+                    <input type="radio" id="delivery" name="delivery" class="mr-2">
+                    <label for="delivery">С доставкой</label>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <h3 class="font-medium mb-2">Модель кузова</h3>
+                <div class="flex items-center mb-2">
+                    <input type="checkbox" id="bodyModel1" class="mr-2">
+                    <label for="bodyModel1">Тут список доступных кузовов</label>
+                </div>
+                <div class="flex items-center mb-2">
+                    <input type="checkbox" id="bodyModel2" class="mr-2" checked>
+                    <label for="bodyModel2">gx90</label>
+                </div>
+                <a href="#" class="text-blue-500">Показать все</a>
+            </div>
+
+            <div class="mb-4">
+                <h3 class="font-medium mb-2">Модель двигателя</h3>
+                <div class="flex items-center mb-2">
+                    <input type="checkbox" id="engineModel1" class="mr-2" checked>
+                    <label for="engineModel1">Тут список доступных двигателей</label>
+                </div>
+                <a href="#" class="text-blue-500">Показать все</a>
+            </div>
+
+            <div class="mb-4">
+                <h3 class="font-medium mb-2">OEM номер</h3>
+                <div class="flex items-center mb-2">
+                    <input type="checkbox" id="oemNumber1" class="mr-2">
+                    <label for="oemNumber1">Тут список доступных номеров детали</label>
+                </div>
+                <a href="#" class="text-blue-500">Показать все</a>
+            </div>
+
+            <div class="mb-4">
+                <h3 class="font-medium mb-2">Перед/Зад</h3>
+                <div class="flex items-center mb-2">
+                    <input type="checkbox" id="frontBack1" class="mr-2" checked>
+                    <label for="frontBack1">Тут список доступных расположений</label>
+                </div>
+                <a href="#" class="text-blue-500">Показать все</a>
+            </div>
+
+            <div class="mb-4">
+                <h3 class="font-medium mb-2">Слева/Справа</h3>
+                <div class="flex items-center mb-2">
+                    <input type="checkbox" id="leftRight1" class="mr-2" checked>
+                    <label for="leftRight1">Тут список доступных расположений</label>
+                </div>
+                <a href="#" class="text-blue-500">Показать все</a>
+            </div>
+
+            <div class="mb-4">
+                <h3 class="font-medium mb-2">Верх/Низ</h3>
+                <div class="flex items-center mb-2">
+                    <input type="checkbox" id="topBottom1" class="mr-2" checked>
+                    <label for="topBottom1">Тут список доступных расположений</label>
+                </div>
+                <a href="#" class="text-blue-500">Показать все</a>
+            </div>
+
+            <div class="flex space-x-2">
+                <button class="bg-blue-500 text-white py-2 px-4 rounded">Сохранить</button>
+                <button class="border border-blue-500 text-blue-500 py-2 px-4 rounded">Сбросить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Меню фильтров на весь экран -->
+<div id="filterMenu" class="hidden">
+    <div class="menu-content">
+        <button id="closeFilterMenuButton" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="bg-white p-4 rounded-lg shadow-lg w-full">
+            <div class="text-center space-y-8">
+                <p class="text-black text-lg">Сначала недавно добавленные</p>
+                <p class="text-black text-lg">Сначала давно добавленные</p>
+                <p class="text-black text-lg">Сначала дешёвые</p>
+                <p class="text-black text-lg">Сначала дорогие</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div id="listView" class="container mx-auto mt-8 mb-20">
@@ -273,22 +439,90 @@
         document.getElementById('phoneListView').classList.remove('hidden');
         document.getElementById('map').classList.remove('full-screen');
         document.getElementById('map').classList.add('hidden');
+        document.getElementById('fullScreenMenu').classList.remove('active');
+        document.getElementById('filterMenu').classList.remove('active');
         document.getElementById('pagination').classList.remove('hidden');
         document.getElementById('listButton').classList.add('bg-blue-600', 'text-white');
         document.getElementById('listButton').classList.remove('bg-white', 'text-gray-600', 'border');
         document.getElementById('mapButton').classList.remove('bg-blue-600', 'text-white');
         document.getElementById('mapButton').classList.add('bg-white', 'text-gray-600', 'border');
+
+
+        // Показываем блок с кнопками сортировки и фильтров
+        document.querySelector('.hidden-on-map').classList.remove('hidden');
     });
 
     document.getElementById('mapButton').addEventListener('click', function() {
         document.getElementById('phoneListView').classList.add('hidden');
         document.getElementById('map').classList.remove('hidden');
         document.getElementById('map').classList.add('full-screen');
+        document.getElementById('fullScreenMenu').classList.remove('active');
+        document.getElementById('filterMenu').classList.remove('active');
         document.getElementById('pagination').classList.add('hidden');
         document.getElementById('mapButton').classList.add('bg-blue-600', 'text-white');
         document.getElementById('mapButton').classList.remove('bg-white', 'text-gray-600', 'border');
         document.getElementById('listButton').classList.remove('bg-blue-600', 'text-white');
         document.getElementById('listButton').classList.add('bg-white', 'text-gray-600', 'border');
+
+
+        // Скрываем блок с кнопками сортировки и фильтров
+        document.querySelector('.hidden-on-map').classList.add('hidden');
+    });
+
+    document.getElementById('sortButton').addEventListener('click', function() {
+        document.getElementById('phoneListView').classList.add('hidden');
+        document.getElementById('map').classList.remove('full-screen');
+        document.getElementById('map').classList.add('hidden');
+        document.getElementById('fullScreenMenu').classList.toggle('active');
+        document.getElementById('filterMenu').classList.remove('active');
+        document.getElementById('pagination').classList.add('hidden');
+      
+        document.getElementById('listButton').classList.remove('bg-blue-600', 'text-white');
+        document.getElementById('listButton').classList.add('bg-white', 'text-gray-600', 'border');
+        document.getElementById('mapButton').classList.remove('bg-blue-600', 'text-white');
+        document.getElementById('mapButton').classList.add('bg-white', 'text-gray-600', 'border');
+
+    });
+
+    document.getElementById('filterButton').addEventListener('click', function() {
+        document.getElementById('phoneListView').classList.add('hidden');
+        document.getElementById('map').classList.remove('full-screen');
+        document.getElementById('map').classList.add('hidden');
+        document.getElementById('fullScreenMenu').classList.remove('active');
+        document.getElementById('filterMenu').classList.toggle('active');
+        document.getElementById('pagination').classList.add('hidden');
+        document.getElementById('listButton').classList.remove('bg-blue-600', 'text-white');
+        document.getElementById('listButton').classList.add('bg-white', 'text-gray-600', 'border');
+        document.getElementById('mapButton').classList.remove('bg-blue-600', 'text-white');
+        document.getElementById('mapButton').classList.add('bg-white', 'text-gray-600', 'border');
+
+    });
+
+    // JavaScript для закрытия меню
+    document.getElementById('closeMenuButton').addEventListener('click', function() {
+        document.getElementById('fullScreenMenu').classList.remove('active');
+        document.getElementById('phoneListView').classList.remove('hidden');
+        document.getElementById('map').classList.remove('full-screen');
+        document.getElementById('map').classList.add('hidden');
+        document.getElementById('pagination').classList.remove('hidden');
+        document.getElementById('listButton').classList.add('bg-blue-600', 'text-white');
+        document.getElementById('listButton').classList.remove('bg-white', 'text-gray-600', 'border');
+        document.getElementById('mapButton').classList.remove('bg-blue-600', 'text-white');
+        document.getElementById('mapButton').classList.add('bg-white', 'text-gray-600', 'border');
+
+    });
+
+    document.getElementById('closeFilterMenuButton').addEventListener('click', function() {
+        document.getElementById('filterMenu').classList.remove('active');
+        document.getElementById('phoneListView').classList.remove('hidden');
+        document.getElementById('map').classList.remove('full-screen');
+        document.getElementById('map').classList.add('hidden');
+        document.getElementById('pagination').classList.remove('hidden');
+        document.getElementById('listButton').classList.add('bg-blue-600', 'text-white');
+        document.getElementById('listButton').classList.remove('bg-white', 'text-gray-600', 'border');
+        document.getElementById('mapButton').classList.remove('bg-blue-600', 'text-white');
+        document.getElementById('mapButton').classList.add('bg-white', 'text-gray-600', 'border');
+
     });
 </script>
 </body>
