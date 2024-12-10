@@ -56,7 +56,7 @@
                     <div class="text-xl text-black font-semibold">
                         {{ $advert->price }} ₽
                     </div>
-                    <div class="flex items-center text-gray-500 text-sm mt-2">ы
+                    <div class="flex items-center text-gray-500 text-sm mt-2">
                         <i class="fas fa-car mr-2"></i>
                         <span>{{ $advert->brand }}</span>
                         <span class="mx-1">|</span>
