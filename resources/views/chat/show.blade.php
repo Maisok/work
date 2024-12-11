@@ -4,20 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Чат</title>
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+</head>
+<body class="h-screen overflow-hidden">
     @include('components.header-seller')
 
-    <div class="mt-20 w-full">
-        <div class="h-[500px] flex w-full flex-col md:flex-row">
+    <div class="mt-20 w-full h-full">
+        <div class="flex w-full h-full flex-col md:flex-row pb-24">
             <!-- Боковая панель для списка чатов на больших экранах -->
             <div class="chat-list-container w-1/3 p-4 md:block hidden">
                 @include('components.chat-list', ['userChats' => $userChats])
             </div>
 
-            <div class="flex-1 flex flex-col w-full">
+            <div class="flex-1 flex flex-col w-full h-full border-l border-gray-300">
                 @if($chat && $advert)
+                    <!-- Ссылка на страницу с чатами (только для мобильных устройств) -->
+                    <a href="{{ route('chats.index') }}" class="md:hidden flex items-center justify-start w-full p-4 bg-white text-blue-500 hover:underline text-sm">
+                        <i class="fas fa-arrow-left mr-2"></i> Назад к чатам
+                    </a>
+
                     <!-- Шапка с информацией о товаре -->
-                    <div class="flex items-center justify-between w-full p-4 bg-white shadow md:hidden">
+                    <div class="flex items-center justify-between w-full p-4 bg-white">
                         <div class="flex items-center space-x-4">
                             <img alt="Product image" class="w-12 h-12 rounded-full" src="{{ $advert->image_url ?: asset('images/no-image.jpg') }}" width="50" height="50"/>
                             <div>
@@ -146,8 +153,6 @@
         // Запускаем функцию каждые 5 секунд (опционально)
         setInterval(fetchMessages, 5000);
     });
-</script>
-</head>
-<body>
+    </script>
 </body>
 </html>

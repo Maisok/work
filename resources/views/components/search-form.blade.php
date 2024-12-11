@@ -2,56 +2,65 @@
     <form id="main-form" action="{{ route('adverts.search') }}" method="GET" class="flex flex-wrap gap-4 items-center" data-brands-url="{{ route('get.brands') }}">
         <input type="hidden" name="city" value="{{ request()->get('city') }}">
 
-        <!-- Search Query Input -->
-        <input
-            type="text"
-            name="search_query"
-            placeholder="Введите название или номер детали"
-            value="{{ request()->get('search_query') }}"
-            class="w-full md:w-auto flex-grow px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500"
-        />
+<!-- Search Input -->
+<input
+    type="text"
+    name="search_query"
+    placeholder="Введите название или номер детали"
+    value="{{ request()->get('search_query') }}"
+    class="w-full md:w-auto flex-grow px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500 text-gray-500"
+/>
 
-        <!-- Brand Input with Autocomplete -->
-        <div class="relative w-full md:w-auto">
-            <input
-                type="text"
-                id="brand-input"
-                name="brand_input"
-                placeholder="Введите марку"
-                class="w-full md:w-auto flex-grow px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500"
-            />
-            <input type="hidden" id="brand" name="brand" value="{{ request()->get('brand') }}">
-            <button type="button" id="brand-dropdown-button" class="absolute right-0 top-0 px-2 py-2 text-gray-500 focus:outline-none">▼</button>
-            <div id="brand-dropdown" class="hidden absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded shadow-lg max-h-48 overflow-y-auto"></div>
-        </div>
-        
-        <!-- Model Input with Autocomplete -->
-        <div class="relative w-full md:w-auto">
-            <input
-                type="text"
-                id="model-input"
-                name="model_input"
-                placeholder="Введите модель"
-                class="w-full md:w-auto flex-grow px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500"
-            />
-            <input type="hidden" id="model" name="model" value="{{ request()->get('model') }}">
-            <button type="button" id="model-dropdown-button" class="absolute right-0 top-0 px-2 py-2 text-gray-500 focus:outline-none">▼</button>
-            <div id="model-dropdown" class="hidden absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded shadow-lg max-h-48 overflow-y-auto"></div>
-        </div>
+<!-- Brand Input with Autocomplete -->
+<div class="relative w-full md:w-auto">
+    <input
+        type="text"
+        id="brand-input"
+        name="brand_input"
+        placeholder="Введите марку"
+        class="w-full md:w-auto flex-grow px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500 text-gray-500"
+    />
+    <input type="hidden" id="brand" name="brand" value="{{ request()->get('brand') }}">
+    <button type="button" id="brand-dropdown-button" class="absolute right-0 top-0 px-2 py-2 text-gray-500 focus:outline-none">
+        <i class="fas fa-chevron-down"></i>
+    </button>
+    <div id="brand-dropdown" class="hidden absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded shadow-lg max-h-48 overflow-y-auto"></div>
+</div>
 
-        <!-- Year Select -->
-        <select
-            id="year"
-            name="year"
-            class="w-full md:w-auto flex-grow px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500"
-        >
-            <option value="">Выберите год выпуска</option>
-            @for($i = 2000; $i <= date('Y'); $i++)
-            <option value="{{ $i }}" {{ request()->get('year') == $i ? 'selected' : '' }}>
-                {{ $i }}
-            </option>
-            @endfor
-        </select>
+<!-- Model Input with Autocomplete -->
+<div class="relative w-full md:w-auto">
+    <input
+        type="text"
+        id="model-input"
+        name="model_input"
+        placeholder="Введите модель"
+        class="w-full md:w-auto flex-grow px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500 text-gray-500"
+    />
+    <input type="hidden" id="model" name="model" value="{{ request()->get('model') }}">
+    <button type="button" id="model-dropdown-button" class="absolute right-0 top-0 px-2 py-2 text-gray-500 focus:outline-none">
+        <i class="fas fa-chevron-down"></i>
+    </button>
+    <div id="model-dropdown" class="hidden absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded shadow-lg max-h-48 overflow-y-auto"></div>
+</div>
+
+<!-- Year Select -->
+<div class="relative w-full md:w-auto">
+    <select
+        id="year"
+        name="year"
+        class="w-full md:w-auto flex-grow px-3 py-2 pr-8 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500 text-gray-500 appearance-none"
+    >
+        <option value="">Выберите год выпуска</option>
+        @for($i = 2000; $i <= date('Y'); $i++)
+        <option value="{{ $i }}" {{ request()->get('year') == $i ? 'selected' : '' }}>
+            {{ $i }}
+        </option>
+        @endfor
+    </select>
+    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
+        <i class="fas fa-chevron-down"></i>
+    </div>
+</div>
 
         <!-- Show Button -->
         <button

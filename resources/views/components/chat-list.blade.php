@@ -1,9 +1,9 @@
-<div class="w-full">
+<div class="w-full ">
     <h2 class="text-2xl font-bold w-full mb-4">Чаты</h2>
     <div class="space-y-4 w-full">
         @foreach($userChats as $userChat)
             <a href="{{ route('chat.show', ['chat' => $userChat]) }}" class="block">
-                <div class="grid grid-cols-3 grid-rows-3 rounded-lg chat-item" data-chat-id="{{ $userChat->id }}">
+                <div class="grid grid-cols-3 grid-rows-3 chat-item border-b border-gray-300" data-chat-id="{{ $userChat->id }}">
                     <!-- Первый столбец: Аватар пользователя -->
                     <div class="col-span-1 row-span-3 flex items-center justify-center">
                         <img src="{{ ($userChat->user1_id == auth()->id() ? $userChat->user2->avatar_url : $userChat->user1->avatar_url) ?: asset('images/noava.jpg') }}" alt="Аватар" class="w-12 h-12 rounded-full object-cover">

@@ -20,7 +20,7 @@
     });
 </script>
 
-<div class="header bg-white p-5 text-center fixed top-0 left-0 w-full z-10">
+<div class="header bg-white p-5 text-center fixed top-0 left-0 w-full z-10 border border-b-gray-300">
     <div class="logo float-left">
         <a href="{{ \App\Helpers\UrlHelper::generateUrlWithCity('adverts.index', null, request()->get('city')) }}" class="text-2xl text-blue-500 font-bold">
             @if(auth()->check() && auth()->user()->user_status == 1 && auth()->user()->logo_url)

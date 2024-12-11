@@ -10,180 +10,198 @@
     <script src="{{ asset('js/search-form.js') }}" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
-<body class=" flex items-center justify-center ">
+<body class=" flex justify-center items-center min-h-screen">
     @include('components.header-seller')
-    <div class="bg-white p-8 w-full max-w-3xl mt-20 mb-20">
-        <h1 class="text-center text-2xl font-semibold mb-6">Создать товар с помощью формы</h1>
 
-        @if ($errors->any())
-            <div class="alert alert-danger bg-red-100 text-red-700 p-4 rounded-md mb-4">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+    <!-- Основной контейнер с использованием Grid -->
+    <div class="grid grid-cols-[1fr_2fr_1fr] gap-8 w-full max-w-6xl mt-32 mb-20">
+        <!-- Левая пустая колонка -->
+        <div class="hidden md:block"></div>
 
-        @if(session('success'))
-            <div class="alert alert-success bg-green-100 text-green-700 p-4 rounded-md mb-4">
-                {{ session('success') }}
-            </div>
-        @endif
+        <!-- Центральная колонка (форма) -->
+        <div class="bg-white p-8 rounded-lg">
+            <h1 class="text-center text-xl font-semibold mb-6">Создать товар с помощью формы</h1>
 
-        <form action="{{ route('adverts.store') }}" method="POST">
-            @csrf
+            @if ($errors->any())
+                <div class="alert alert-danger bg-red-100 text-red-700 p-4 rounded-md mb-4">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
-            <div class="mb-4">
-                <label for="art_number" class="block text-gray-700 font-medium mb-2">Артикул</label>
-                <input type="text" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="art_number" name="art_number">
-            </div>
+            @if(session('success'))
+                <div class="alert alert-success bg-green-100 text-green-700 p-4 rounded-md mb-4">
+                    {{ session('success') }}
+                </div>
+            @endif
 
-            <div class="mb-4">
-                <label for="product_name" class="block text-gray-700 font-medium mb-2">Название товара</label>
-                <input type="text" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="product_name" name="product_name">
-            </div>
+            <form action="{{ route('adverts.store') }}" method="POST">
+                @csrf
 
-            <div class="mb-4">
-                <label for="number" class="block text-gray-700 font-medium mb-2">Номер детали</label>
-                <input type="text" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="number" name="number">
-            </div>
+                <div class="mb-4">
+                    <label for="art_number" class="block text-gray-700 font-medium mb-2">Артикул</label>
+                    <input type="text" class="w-full px-3 py-2 border rounded-lg" id="art_number" name="art_number">
+                </div>
 
-            <div class="mb-4">
-                <label for="new_used" class="block text-gray-700 font-medium mb-2">Состояние</label>
-                <select class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="new_used" name="new_used">
-                    <option value="new">Новый</option>
-                    <option value="used">Б/У</option>
-                </select>
-            </div>
+                <div class="mb-4">
+                    <label for="product_name" class="block text-gray-700 font-medium mb-2">Название товара <span class="text-red-500">*</span></label>
+                    <input type="text" class="w-full px-3 py-2 border rounded-lg" id="product_name" name="product_name">
+                </div>
 
-            <div class="mb-4">
-                <label for="brand" class="block text-gray-700 font-medium mb-2">Марка</label>
-                <select id="brand" name="brand" data-url="{{ route('get.models') }}" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="">Выберите марку</option>
-                    @foreach(App\Models\BaseAvto::distinct()->pluck('brand') as $brand)
-                        <option value="{{ $brand }}" {{ request()->get('brand') == $brand ? 'selected' : '' }}>
-                            {{ $brand }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
+                <div class="mb-4">
+                    <label for="number" class="block text-gray-700 font-medium mb-2">Номер детали</label>
+                    <input type="text" class="w-full px-3 py-2 border rounded-lg" id="number" name="number">
+                </div>
 
-            <div class="mb-4">
-                <label for="model" class="block text-gray-700 font-medium mb-2">Модель</label>
-                <select id="model" name="model" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="">Выберите модель</option>
-                    @if(request()->get('brand')) 
-                        @foreach(App\Models\BaseAvto::where('brand', request()->get('brand'))->distinct()->pluck('model') as $model)
-                            <option value="{{ $model }}" {{ request()->get('model') == $model ? 'selected' : '' }}>
-                                {{ $model }}
+                <div class="mb-4">
+                    <label for="new_used" class="block text-gray-700 font-medium mb-2">Состояние</label>
+                    <select class="w-full px-3 py-2 border rounded-lg" id="new_used" name="new_used">
+                        <option value="new">Новый</option>
+                        <option value="used">Б/У</option>
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label for="brand" class="block text-gray-700 font-medium mb-2">Марка <span class="text-red-500">*</span></label>
+                    <select id="brand" name="brand" data-url="{{ route('get.models') }}" class="w-full px-3 py-2 border rounded-lg">
+                        <option value="">Выберите марку</option>
+                        @foreach(App\Models\BaseAvto::distinct()->pluck('brand') as $brand)
+                            <option value="{{ $brand }}" {{ request()->get('brand') == $brand ? 'selected' : '' }}>
+                                {{ $brand }}
                             </option>
                         @endforeach
-                    @endif
-                </select>
-            </div>
+                    </select>
+                </div>
 
-            <div class="mb-4">
-                <label for="year" class="block text-gray-700 font-medium mb-2">Год выпуска</label>
-                <select id="year" name="year" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="">Выберите год выпуска</option>
-                    @for($i = 2000; $i <= date('Y'); $i++)
-                        <option value="{{ $i }}" {{ request()->get('year') == $i ? 'selected' : '' }}>
-                            {{ $i }}
-                        </option>
-                    @endfor
-                </select>
-            </div>
+                <div class="mb-4">
+                    <label for="model" class="block text-gray-700 font-medium mb-2">Модель</label>
+                    <select id="model" name="model" class="w-full px-3 py-2 border rounded-lg">
+                        <option value="">Выберите модель</option>
+                        @if(request()->get('brand')) 
+                            @foreach(App\Models\BaseAvto::where('brand', request()->get('brand'))->distinct()->pluck('model') as $model)
+                                <option value="{{ $model }}" {{ request()->get('model') == $model ? 'selected' : '' }}>
+                                    {{ $model }}
+                                </option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
 
-            <div class="mb-4">
-                <label for="body" class="block text-gray-700 font-medium mb-2">Модель Кузова</label>
-                <input type="text" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="body" name="body">
-            </div>
+                <div class="mb-4">
+                    <label for="year" class="block text-gray-700 font-medium mb-2">Год выпуска</label>
+                    <select id="year" name="year" class="w-full px-3 py-2 border rounded-lg">
+                        <option value="">Выберите год выпуска</option>
+                        @for($i = 2000; $i <= date('Y'); $i++)
+                            <option value="{{ $i }}" {{ request()->get('year') == $i ? 'selected' : '' }}>
+                                {{ $i }}
+                            </option>
+                        @endfor
+                    </select>
+                </div>
 
-            <div class="mb-4">
-                <label for="engine" class="block text-gray-700 font-medium mb-2">Модель Двигателя</label>
-                <input type="text" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="engine" name="engine">
-            </div>
+                <div class="mb-4">
+                    <label for="body" class="block text-gray-700 font-medium mb-2">Модель Кузова</label>
+                    <input type="text" class="w-full px-3 py-2 border rounded-lg" id="body" name="body">
+                </div>
 
-            <div class="mb-4">
-                <label for="L_R" class="block text-gray-700 font-medium mb-2">Слева/Справа</label>
-                <select class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="L_R" name="L_R">
-                    <option value="">Выберите расположение</option>
-                    <option value="Слева">Слева (L)</option>
-                    <option value="Справа">Справа (R)</option>
-                </select>
-            </div>
+                <div class="mb-4">
+                    <label for="engine" class="block text-gray-700 font-medium mb-2">Модель Двигателя</label>
+                    <input type="text" class="w-full px-3 py-2 border rounded-lg" id="engine" name="engine">
+                </div>
 
-            <div class="mb-4">
-                <label for="F_R" class="block text-gray-700 font-medium mb-2">Спереди/Сзади</label>
-                <select class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="F_R" name="F_R">
-                    <option value="">Выберите расположение</option>
-                    <option value="Спереди">Спереди (F)</option>
-                    <option value="Сзади">Сзади (R)</option>
-                </select>        
-            </div>
+                <div class="mb-4">
+                    <label for="L_R" class="block text-gray-700 font-medium mb-2">Слева/Справа</label>
+                    <select class="w-full px-3 py-2 border rounded-lg" id="L_R" name="L_R">
+                        <option value="">Выберите расположение</option>
+                        <option value="Слева">Слева (L)</option>
+                        <option value="Справа">Справа (R)</option>
+                    </select>
+                </div>
 
-            <div class="mb-4">
-                <label for="U_D" class="block text-gray-700 font-medium mb-2">Сверху/Снизу</label>
-                <select class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="U_D" name="U_D">
-                    <option value="">Выберите расположение</option>
-                    <option value="Сверху">Сверху (U)</option>
-                    <option value="Снизу">Снизу (D)</option>
-                </select>         
-            </div>
+                <div class="mb-4">
+                    <label for="F_R" class="block text-gray-700 font-medium mb-2">Спереди/Сзади</label>
+                    <select class="w-full px-3 py-2 border rounded-lg" id="F_R" name="F_R">
+                        <option value="">Выберите расположение</option>
+                        <option value="Спереди">Спереди (F)</option>
+                        <option value="Сзади">Сзади (R)</option>
+                    </select>        
+                </div>
 
-            <div class="mb-4">
-                <label for="color" class="block text-gray-700 font-medium mb-2">Цвет</label>
-                <input type="text" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="color" name="color">
-            </div>
+                <div class="mb-4">
+                    <label for="U_D" class="block text-gray-700 font-medium mb-2">Сверху/Снизу</label>
+                    <select class="w-full px-3 py-2 border rounded-lg" id="U_D" name="U_D">
+                        <option value="">Выберите расположение</option>
+                        <option value="Сверху">Сверху (U)</option>
+                        <option value="Снизу">Снизу (D)</option>
+                    </select>         
+                </div>
 
-            <div class="mb-4">
-                <label for="applicability" class="block text-gray-700 font-medium mb-2">Применимость</label>
-                <input type="text" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="applicability" name="applicability">
-            </div>
+                <div class="mb-4">
+                    <label for="color" class="block text-gray-700 font-medium mb-2">Цвет</label>
+                    <input type="text" class="w-full px-3 py-2 border rounded-lg" id="color" name="color">
+                </div>
 
-            <div class="mb-4">
-                <label for="quantity" class="block text-gray-700 font-medium mb-2">Количество</label>
-                <input type="number" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="quantity" name="quantity" min="1">
-            </div>
+                <div class="mb-4">
+                    <label for="applicability" class="block text-gray-700 font-medium mb-2">Применимость</label>
+                    <input type="text" class="w-full px-3 py-2 border rounded-lg" id="applicability" name="applicability">
+                </div>
 
-            <div class="mb-4">
-                <label for="price" class="block text-gray-700 font-medium mb-2">Цена</label>
-                <input type="text" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="price" name="price" min="0" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-            </div>
+                <div class="mb-4">
+                    <label for="quantity" class="block text-gray-700 font-medium mb-2">Количество</label>
+                    <input type="number" class="w-full px-3 py-2 border rounded-lg" id="quantity" name="quantity" min="1">
+                </div>
 
-            <div class="mb-4">
-                <label for="availability" class="block text-gray-700 font-medium mb-2">Наличие</label>
-                <select class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="availability" name="availability">
-                    <option value="1">В наличии</option>
-                    <option value="0">Нет в наличии</option>
-                </select>
-            </div>
+                <div class="mb-4">
+                    <label for="price" class="block text-gray-700 font-medium mb-2">Цена</label>
+                    <div class="flex">
+                        <input type="text" class="w-full px-3 py-2 border rounded-l-lg" id="price" name="price" min="0" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                        <span class="inline-flex items-center px-3 border-t border-b border-r border-gray-300 rounded-r-lg bg-gray-100">₽</span>
+                    </div>
+                </div>
 
-            <div class="mb-4">
-                <label for="main_photo_url" class="block text-gray-700 font-medium mb-2">Основное фото (URL)</label>
-                <input type="text" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="main_photo_url" name="main_photo_url">
-            </div>
+                <div class="mb-4">
+                    <label for="availability" class="block text-gray-700 font-medium mb-2">Наличие</label>
+                    <select class="w-full px-3 py-2 border rounded-lg" id="availability" name="availability">
+                        <option value="1">В наличии</option>
+                        <option value="0">Нет в наличии</option>
+                    </select>
+                </div>
 
-            <div class="mb-4">
-                <label for="additional_photo_url_1" class="block text-gray-700 font-medium mb-2">Дополнительное фото 1 (URL)</label>
-                <input type="text" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="additional_photo_url_1" name="additional_photo_url_1">
-            </div>
+                <div class="mb-4">
+                    <label for="main_photo_url" class="block text-gray-700 font-medium mb-2">Основное фото (URL)</label>
+                    <input type="text" class="w-full px-3 py-2 border rounded-lg" id="main_photo_url" name="main_photo_url">
+                </div>
 
-            <div class="mb-4">
-                <label for="additional_photo_url_2" class="block text-gray-700 font-medium mb-2">Дополнительное фото 2 (URL)</label>
-                <input type="text" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="additional_photo_url_2" name="additional_photo_url_2">
-            </div>
+                <div class="mb-4">
+                    <label for="additional_photo_url_1" class="block text-gray-700 font-medium mb-2">Дополнительное фото 1 (URL)</label>
+                    <input type="text" class="w-full px-3 py-2 border rounded-lg" id="additional_photo_url_1" name="additional_photo_url_1">
+                </div>
 
-            <div class="mb-4">
-                <label for="additional_photo_url_3" class="block text-gray-700 font-medium mb-2">Дополнительное фото 3 (URL)</label>
-                <input type="text" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="additional_photo_url_3" name="additional_photo_url_3">
-            </div>
+                <div class="mb-4">
+                    <label for="additional_photo_url_2" class="block text-gray-700 font-medium mb-2">Дополнительное фото 2 (URL)</label>
+                    <input type="text" class="w-full px-3 py-2 border rounded-lg" id="additional_photo_url_2" name="additional_photo_url_2">
+                </div>
 
-            <div class="text-center">
-                <button type="submit" class="bg-blue-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Добавить товар</button>
-            </div>
-        </form>
+                <div class="mb-4">
+                    <label for="additional_photo_url_3" class="block text-gray-700 font-medium mb-2">Дополнительное фото 3 (URL)</label>
+                    <input type="text" class="w-full px-3 py-2 border rounded-lg" id="additional_photo_url_3" name="additional_photo_url_3">
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="bg-blue-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Добавить товар</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Правая колонка (ссылка на импорт товаров) -->
+        <div class="bg-white p-4 rounded-lg shadow-md self-start">
+            <ul class="text-sm text-gray-600">
+                <li class="mb-2"><a href="{{route('fromlist')}}" class="block hover:underline">Импортировать товары</a></li>
+            </ul>
+        </div>
     </div>
 
     <script>

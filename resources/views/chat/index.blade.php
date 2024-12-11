@@ -9,7 +9,7 @@
 
 @include('components.header-seller')
 
-<div class="mt-20">
+<div class="mt-20 w-full">
     <div class="flex flex-col md:flex-row">
         <!-- Боковая панель для списка чатов на больших экранах -->
         <div class="chat-list-container w-1/3 md:block hidden">

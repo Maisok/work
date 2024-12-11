@@ -6,13 +6,13 @@
     <div class="flex flex-col items-center justify-center h-screen">
         <h1 class="text-2xl font-semibold mb-6">Как вы хотите добавить товары?</h1>
         <div class="flex justify-center space-x-4">
-            <button class="bg-gray-200 text-gray-800 py-10 px-4 rounded-md">Создать товар с помощью формы</button>
-            <button class="bg-gray-200 text-gray-800 py-10 px-4 rounded-md">Загрузить товары из прайс-листа</button>
+            <a href="{{route('adverts.create')}}" class="bg-gray-200 text-gray-800 py-10 px-4 rounded-md">Создать товар с помощью формы</a>
+            <a href="#sel" class="bg-gray-200 text-gray-800 py-10 px-4 rounded-md">Загрузить товары из прайс-листа</a>
         </div>
     </div>
 
     <div class="mt-16">
-        <h2 class="text-xl font-semibold text-center mb-6">Выберите способ загрузки товаров из прайс-листа</h2>
+        <h2 id="sel" class="text-xl font-semibold text-center mb-6">Выберите способ загрузки товаров из прайс-листа</h2>
         <div class="space-y-8">
             <div class="border p-4 rounded-md">
                 <div class="flex items-center mb-4">
