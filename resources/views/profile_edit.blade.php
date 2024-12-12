@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Редактирование профиля</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="{{asset('images/Group 438.png')}}" type="image/x-icon">
 </head>
 <body class="bg-gray-100 font-sans">
     @include('components.header-seller')   

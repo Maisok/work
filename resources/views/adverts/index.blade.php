@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('content')
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -9,6 +9,7 @@
     <title>Все товары</title>
     <script src="https://cdn.tailwindcss.com"></script>
      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+     <link rel="shortcut icon" href="{{asset('images/Group 438.png')}}" type="image/x-icon">
 </head>
 <body class="font-sans flex flex-col items-center">
    
@@ -24,7 +25,7 @@
 
 
 
-<div class="container mx-auto w-full max-w-screen-2xl">
+<div class="w-full flex flex-col align-center justify-center">
     @if($adverts->isEmpty())
         <p class="text-center text-lg mt-8">Нет доступных объявлений.</p>
     @else
@@ -45,7 +46,7 @@
                     @else
                         <img src="{{ asset('images/dontfoto.jpg') }}" alt="Фото отсутствует" class="w-full h-48 object-cover rounded-lg">
                     @endif
-                    <span class="absolute top-2 right-2 bg-yellow-200 text-yellow-800 text-xs font-semibold px-2 py-1 rounded">
+                    <span class="absolute top-2 right-2 bg-[#FFE6C1] text-black text-xs font-normal px-2 py-1 rounded">
                         В наличии
                     </span>
                 </div>
@@ -76,9 +77,9 @@
         </div>
 
         <!-- Для больших и средних экранов -->
-        <div class="hidden sm:block">
+        <div class=" hidden sm:flex w-full flex-col items-center justify-center">
             @foreach($filteredAdverts as $advert)
-            <div class="bg-white rounded-lg shadow-md flex max-w-5xl p-4 mt-8 cursor-pointer transition-colors duration-300 hover:bg-blue-100" onclick="location.href='{{ route('adverts.show', $advert->id) }}'" tabindex="0" role="button">
+            <div class="bg-white rounded-lg shadow-md flex max-w-5xl p-4 mt-8 cursor-pointer transition-colors duration-300 hover:bg-[#D8EAFF]" onclick="location.href='{{ route('adverts.show', $advert->id) }}'" tabindex="0" role="button">
                 <!-- Вывод главного фото -->
                 @if ($advert->main_photo_url)
                     <img src="{{ $advert->main_photo_url }}" alt="{{ $advert->product_name }} - Главное фото" class="rounded-lg w-1/5 object-cover">
@@ -98,10 +99,10 @@
                         </div>
                     </div>
                     <div class="flex space-x-2 mt-4 w-full justify-around">
-                        <span class="bg-yellow-200 text-yellow-800 text-sm font-semibold px-2.5 py-0.5 rounded">{{ $advert->brand }}</span>
-                        <span class="bg-yellow-200 text-yellow-800 text-sm font-semibold px-2.5 py-0.5 rounded">{{ $advert->model }}</span>
-                        <span class="bg-yellow-200 text-yellow-800 text-sm font-semibold px-2.5 py-0.5 rounded">{{ $advert->body }}</span>
-                        <span class="bg-yellow-200 text-yellow-800 text-sm font-semibold px-2.5 py-0.5 rounded">{{ $advert->engine }}</span>
+                        <span class="bg-[#FFE6C1] text-black text-sm font-semibold px-2.5 py-0.5 rounded">{{ $advert->brand }}</span>
+                        <span class="bg-[#FFE6C1] text-black text-sm font-semibold px-2.5 py-0.5 rounded">{{ $advert->model }}</span>
+                        <span class="bg-[#FFE6C1] text-black text-sm font-semibold px-2.5 py-0.5 rounded">{{ $advert->body }}</span>
+                        <span class="bg-[#FFE6C1] text-black text-sm font-semibold px-2.5 py-0.5 rounded">{{ $advert->engine }}</span>
                     </div>
                 </div>
             </div>
@@ -115,4 +116,3 @@
 </div>
 </body>
 </html>
-@endsection

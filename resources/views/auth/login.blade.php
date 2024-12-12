@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Авторизация</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="shortcut icon" href="{{asset('images/Group 438.png')}}" type="image/x-icon">
 </head>
 <body class="font-sans bg-gray-100 mt-40">
     @include('components.header-seller')   

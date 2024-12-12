@@ -7,6 +7,7 @@
     <title>ГдеЗапчасть.рф</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/cookie-notice.css') }}"> <!-- Подключение стилей уведомления -->
+    <link rel="shortcut icon" href="{{asset('images/Group 438.png')}}" type="image/x-icon">
 
 </head>
 <body>

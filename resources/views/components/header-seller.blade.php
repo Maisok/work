@@ -88,6 +88,7 @@
         <li><a href="{{route('oferta')}}" class="block text-lg text-gray-700 hover:text-gray-900">Оферта</a></li>
         <li><a href="{{route('franchise.index')}}" class="block text-lg text-gray-700 hover:text-gray-900">Франшиза</a></li>
         <li><a href="{{route('help.index')}}" class="block text-lg text-gray-700 hover:text-gray-900">Справка</a></li>
+        <li><a href='{{ route('logout') }}' class="block text-lg text-gray-700 hover:text-gray-900">Выйти</a></li>
     </ul>
 </div>
 

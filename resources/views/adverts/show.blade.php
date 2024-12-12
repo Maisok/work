@@ -8,7 +8,18 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=9fbfa4df-7869-44a3-ae8e-0ebc49545ea9" type="text/javascript"></script>
+    <link rel="shortcut icon" href="{{asset('images/Group 438.png')}}" type="image/x-icon">
     <style>
+        /* Выделение строки таблицы при наведении */
+        tbody tr:hover {
+            background-color: #f3f4f6; /* Светло-серый цвет для выделения */
+            transition: background-color 0.3s ease; /* Плавное изменение цвета */
+        }
+    </style>
+
+    <style>
+
+        
         @media (max-width: 767px) {
             .fixed-buttons {
                 position: fixed;
@@ -31,10 +42,10 @@
     <div class="border-b border-gray-300 my-4 mt-20"></div>
 
     <!-- путь -->
-    <div class="container_path px-4 py-2">
-        <a href="{{ route('adverts.index') }}" class="text-blue-500 hover:underline">Главная</a> /
-        <a href="javascript:history.back()" class="text-blue-500 hover:underline">Поиск</a> /
-        <a href="{{ route('adverts.show', $advert->id) }}" class="text-blue-500 hover:underline">{{ $advert->product_name }}</a>
+    <div class="container_path px-4 py-2 text-gray-600 font-medium">
+        <a href="{{ route('adverts.index') }}" class=" hover:underline">Главная</a> /
+        <a href="javascript:history.back()" class=" hover:underline">Поиск</a> /
+        <a href="{{ route('adverts.show', $advert->id) }}" class=" hover:underline">{{ $advert->product_name }}</a>
     </div>
 
     <div class="container mx-auto p-4">
@@ -70,8 +81,8 @@
                     <div class="mt-2">
                         <p class="text-red-500 font-semibold text-lg">{{ $advert->user->userAddress->city ?? 'Не указан' }}</p>
                         <div class="flex items-center mt-1">
-                            <i class="fas fa-truck text-yellow-500 text-lg"></i>
-                            <p class="text-yellow-500 text-base ml-1">Есть доставка</p>
+                            <i class="fas fa-truck text-yellow-400 text-lg"></i>
+                            <p class="text-yellow-400 text-base ml-1">Есть доставка</p>
                         </div>
                         <a class="text-blue-500 text-base mt-1 block" href="#">Показать условия доставки</a>
                     </div>
@@ -229,9 +240,9 @@
     </div>
 
     <!-- Фиксированные кнопки на мобильных устройствах -->
-    <div class="fixed-buttons bottom-10 md:hidden">
-        <button class="w-1/2 bg-blue-500 text-white py-2 rounded-lg text-lg">Показать телефон</button>
-        <button class="w-1/2 bg-green-500 text-white py-2 rounded-lg text-lg">Написать продавцу</button>
+    <div class="fixed-buttons bottom-10 md:hidden flex space-x-2">
+        <button class="w-1/2 bg-blue-500 text-white py-2 rounded-lg text-sm">Показать телефон</button>
+        <button class="w-1/2 bg-green-500 text-white py-2 rounded-lg text-sm">Написать продавцу</button>
     </div>
 
     <script>

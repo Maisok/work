@@ -72,6 +72,7 @@
 <link rel="stylesheet" href="{{ asset('css/my_adverts.css') }}"> <!-- Подключение основного CSS-файла -->
 <script src="{{ asset('js/my_adverts.js') }}" defer></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="shortcut icon" href="{{asset('images/Group 438.png')}}" type="image/x-icon">
 @include('components.header-seller')
 
 <div class="container mx-auto p-4 bg-white rounded shadow-md overflow-x-auto mt-20  mb-20">

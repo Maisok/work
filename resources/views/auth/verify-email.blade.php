@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Подтверждение почты</title>
+    <link rel="shortcut icon" href="{{asset('images/Group 438.png')}}" type="image/x-icon">
 </head>
 <body>
     <h2>Подтверждение почты</h2>

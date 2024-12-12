@@ -6,6 +6,7 @@
     <title>Все товары</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link rel="shortcut icon" href="{{asset('images/Group 438.png')}}" type="image/x-icon">
     <style>
         /* Добавляем стили для отображения карты на весь экран */
         #map.full-screen {
@@ -122,7 +123,7 @@
         <i class="fas fa-th-large mr-2"></i>
         Списком
     </button>
-    <button id="mapButton" class="flex items-center justify-center px-4 py-2 bg-white text-gray-600 border rounded-lg w-1/2">
+    <button id="mapButton" class=" text-xs flex items-center justify-center pl-2 py-3 bg-white text-gray-600 border rounded-lg w-1/2">
         <i class="fas fa-map mr-2"></i>
         Показать на карте
     </button>

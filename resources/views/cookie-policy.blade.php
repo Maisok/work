@@ -5,6 +5,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
+    <link rel="shortcut icon" href="{{asset('images/Group 438.png')}}" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Политика в отношении файлов cookie</title>
     <link rel="stylesheet" href="{{ asset('css/cookie-policy.css') }}"> <!-- Подключение основного CSS-файла -->

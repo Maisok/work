@@ -3,7 +3,7 @@
 <head>
     @include('components.header-seller')   
     @extends('layouts.app')
-
+    <link rel="shortcut icon" href="{{asset('images/Group 438.png')}}" type="image/x-icon">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Франшиза</title>
