@@ -60,7 +60,7 @@
                     </div>
 
                     <!-- Форма для отправки сообщения -->
-                    <div class="p-4 border-t flex items-center space-x-4 pb-10">
+                    <div class="p-4 border-t flex items-center space-x-4 pb-10 sm:pb-0">
                         <form action="{{ route('chat.send', ['chat' => $chat]) }}" method="POST" class="flex w-full">
                             @csrf
                             <input type="text" name="message" class="flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Сообщение" required>

@@ -310,17 +310,18 @@
         </div>
 
         <!-- Для больших и средних экранов -->
-        <div class="hidden sm:block">
+        <div class="hidden sm:flex w-full flex-col items-center justify-center">
             @foreach($adverts as $advert)
-            <div class="bg-white rounded-lg shadow-md flex max-w-5xl p-4 mt-8 cursor-pointer transition-colors duration-300 hover:bg-blue-100" onclick="location.href='{{ route('adverts.show', $advert->id) }}'" tabindex="0" role="button">
+            <div class="bg-white rounded-lg shadow-md flex max-w-5xl w-full p-4 mt-8 cursor-pointer transition-colors duration-300 hover:bg-blue-100" onclick="location.href='{{ route('adverts.show', $advert->id) }}'" tabindex="0" role="button">
                 <!-- Вывод главного фото -->
-                @if ($advert->main_photo_url)
-                    <img src="{{ $advert->main_photo_url }}" alt="{{ $advert->product_name }} - Главное фото" class="rounded-lg w-1/5 object-cover">
-                @else
-                    <img src="{{ asset('images/dontfoto.jpg') }}" alt="Фото отсутствует" class="rounded-lg w-1/5 object-cover">
-                @endif
-            
-                <div class="flex flex-col justify-between w-full pl-4">
+                <div class="w-1/5 h-40 flex-shrink-0">
+                    @if ($advert->main_photo_url)
+                        <img src="{{ $advert->main_photo_url }}" alt="{{ $advert->product_name }} - Главное фото" class="rounded-lg w-full h-full object-cover">
+                    @else
+                        <img src="{{ asset('images/dontfoto.jpg') }}" alt="Фото отсутствует" class="rounded-lg w-full h-full object-cover">
+                    @endif
+                </div>
+                <div class="flex flex-col justify-between w-4/5 pl-4">
                     <div class="flex justify-between items-start">
                         <div>
                             <h2 class="text-xl font-semibold">{{ $advert->product_name }}</h2>
@@ -332,16 +333,15 @@
                         </div>
                     </div>
                     <div class="flex space-x-2 mt-4 w-full justify-around">
-                        <span class="bg-yellow-200 text-yellow-800 text-sm font-semibold px-2.5 py-0.5 rounded">{{ $advert->brand }}</span>
-                        <span class="bg-yellow-200 text-yellow-800 text-sm font-semibold px-2.5 py-0.5 rounded">{{ $advert->model }}</span>
-                        <span class="bg-yellow-200 text-yellow-800 text-sm font-semibold px-2.5 py-0.5 rounded">{{ $advert->body }}</span>
-                        <span class="bg-yellow-200 text-yellow-800 text-sm font-semibold px-2.5 py-0.5 rounded">{{ $advert->engine }}</span>
+                        <span class="bg-[#FFE6C1] text-black text-sm font-semibold px-2.5 py-0.5 rounded">{{ $advert->brand }}</span>
+                        <span class="bg-[#FFE6C1] text-black text-sm font-semibold px-2.5 py-0.5 rounded">{{ $advert->model }}</span>
+                        <span class="bg-[#FFE6C1] text-black text-sm font-semibold px-2.5 py-0.5 rounded">{{ $advert->body }}</span>
+                        <span class="bg-[#FFE6C1] text-black text-sm font-semibold px-2.5 py-0.5 rounded">{{ $advert->engine }}</span>
                     </div>
                 </div>
             </div>
             @endforeach
         </div>
-
         <!-- Подключение пагинации -->
         <div id="pagination" class="mt-8">
             @include('components.pagination', ['adverts' => $adverts])

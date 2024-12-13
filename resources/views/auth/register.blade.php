@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Регистрация</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -12,7 +13,7 @@
 <body class="font-sans bg-gray-100">
     @include('components.header-seller')   
 
-    <div class="header text-center mt-40">
+    <div class="header text-center mt-10">
         <a href="{{ route('login') }}" class="text-blue-500 hover:underline">Есть аккаунт? Войти</a>
     </div>
 
@@ -33,31 +34,31 @@
             </div>
             
             <!-- Поле для имени пользователя -->
-            <input type="text" name="username" id="usernameInput" placeholder="Название компании" required class="w-full p-2 border rounded-md">
+            <input type="text" name="username" id="usernameInput" placeholder="Название компании" required class="w-full p-3 border rounded-md">
             
             <!-- Поле для email -->
-            <input type="email" name="email" placeholder="Email" required class="w-full p-2 border rounded-md">
+            <input type="email" name="email" placeholder="Email" required class="w-full p-3 border rounded-md">
             
             <div class="password-container relative">
                 <!-- Поле для пароля -->
-                <input type="password" name="password" id="passwordInput" placeholder="Пароль" required class="w-full p-2 border rounded-md">
+                <input type="password" name="password" id="passwordInput" placeholder="Пароль" required class="w-full p-3 border rounded-md">
                 <span class="toggle-password absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer" onclick="togglePasswordVisibility('passwordInput', 'confirmPasswordInput', this)">
                     <img src="images/close_password.png" alt="Показать" class="password-icon w-5 h-5">
                 </span>
             </div>
             
             <!-- Поле для подтверждения пароля -->
-            <input type="password" name="password_confirmation" id="confirmPasswordInput" placeholder="Повторите пароль" required class="w-full p-2 border rounded-md">
+            <input type="password" name="password_confirmation" id="confirmPasswordInput" placeholder="Повторите пароль" required class="w-full p-3 border rounded-md">
             
             <!-- Поле для телефона -->
-            <input type="text" id="phoneInput" name="phone" placeholder="Телефон (7XXXXXXXXXX)" required maxlength="19" class="w-full p-2 border rounded-md">
+            <input type="text" id="phoneInput" name="phone" placeholder="Телефон (7XXXXXXXXXX)" required maxlength="19" class="w-full p-3 border rounded-md">
 
             <!-- Поле для города с автозаполнением -->
-            <input type="text" id="cityInput" name="city" placeholder="Введите город" required autocomplete="off" class="w-full p-2 border rounded-md">
+            <input type="text" id="cityInput" name="city" placeholder="Введите город" required autocomplete="off" class="w-full p-3 border rounded-md">
             <div id="citySuggestions" class="suggest-view max-h-52 overflow-y-auto bg-white border rounded-md hidden"></div>
 
             <!-- Поле для адреса с автозаполнением -->
-            <input type="text" id="addressInput" name="address_line" placeholder="Введите адрес" required class="w-full p-2 border rounded-md">
+            <input type="text" id="addressInput" name="address_line" placeholder="Введите адрес" required class="w-full p-3 border rounded-md">
 
             <!-- Чекбокс для согласия с офертой -->
             <div class="flex items-center">
@@ -79,10 +80,10 @@
                 </div>
             @endif
             
-            <button type="submit" class="w-full p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Зарегистрироваться</button>
+            <button type="submit" class="w-full p-3 bg-blue-500 text-white rounded-md hover:bg-blue-600">Зарегистрироваться</button>
         </form>
 
-        <p class="mt-4 text-center">После регистрации вам будет отправлено письмо для подтверждения почты.</p>
+        <p class="mb-16 mt-4 text-center">После регистрации вам будет отправлено письмо для подтверждения почты.</p>
     </div>
 
     <script>
