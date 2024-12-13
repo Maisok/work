@@ -96,6 +96,10 @@
                 <i class="fas fa-headset text-2xl text-gray-600 mr-4"></i>
                 <p class="text-gray-600">Служба поддержки</p>
             </div>
+             <a href ="{{ route('converter_set.edit') }}" class="bg-gray-100 p-8 rounded-lg flex items-center">
+                <i class="fas fa-headset text-2xl text-gray-600 mr-4"></i>
+                <p class="text-gray-600">Настройки конвертера</p>
+            </a>
         </div>
     </div>
 </body>

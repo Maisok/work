@@ -207,3 +207,5 @@ Route::view("/admin/cars/import", 'cars.import')->name('cars.import.form');
 Route::post('/convert-price-list', [ConverterSetController::class, 'convertPriceList'])->name('convert.price.list');
 
 Route::view('/fromlist', 'adverts.createFromList')->name('fromlist');
+
+   Route::post('/get-settings', [ConverterSetController::class, 'getSettings'])->name('get.settings');
