@@ -262,4 +262,97 @@ class ConverterSetController extends Controller
             return response()->json(['error' => 'An error occurred while processing the file.'], 500);
         }
     }
+
+
+    public function reset(Request $request)
+    {
+        // Получаем текущего пользователя
+        $user = $request->user();
+
+        // Находим запись в таблице converter_set для текущего пользователя
+        $converterSet = ConverterSet::where('user_id', $user->id)->first();
+
+        if ($converterSet) {
+            // Сбрасываем все поля в 0 или пустые значения
+            $converterSet->update([
+                'acura' => 0,
+                'alfa_romeo' => 0,
+                'asia' => 0,
+                'aston_martin' => 0,
+                'audi' => 0,
+                'bentley' => 0,
+                'bmw' => 0,
+                'byd' => 0,
+                'cadillac' => 0,
+                'changan' => 0,
+                'chevrolet' => 0,
+                'citroen' => 0,
+                'daewoo' => 0,
+                'daihatsu' => 0,
+                'datsun' => 0,
+                'fiat' => 0,
+                'ford' => 0,
+                'gaz' => 0,
+                'geely' => 0,
+                'haval' => 0,
+                'honda' => 0,
+                'hyundai' => 0,
+                'infiniti' => 0,
+                'isuzu' => 0,
+                'jaguar' => 0,
+                'jeep' => 0,
+                'kia' => 0,
+                'lada' => 0,
+                'land_rover' => 0,
+                'mazda' => 0,
+                'mercedes_benz' => 0,
+                'mitsubishi' => 0,
+                'nissan' => 0,
+                'opel' => 0,
+                'peugeot' => 0,
+                'peugeot_lnonum' => 0,
+                'porsche' => 0,
+                'renault' => 0,
+                'skoda' => 0,
+                'ssangyong' => 0,
+                'subaru' => 0,
+                'suzuki' => 0,
+                'toyota' => 0,
+                'uaz' => 0,
+                'volkswagen' => 0,
+                'volvo' => 0,
+                'zaz' => 0,
+                'product_name' => '',
+                'price' => '',
+                'car_brand' => '',
+                'car_model' => '',
+                'year' => '',
+                'oem_number' => '',
+                'picture' => '',
+                'body' => '',
+                'engine' => '',
+                'quantity' => '',
+                'text_declaration' => '',
+                'left_right' => '',
+                'up_down' => '',
+                'front_back' => '',
+                'fileformat_col' => '',
+                'encoding' => '',
+                'file_price' => '',
+                'my_file' => '',
+                'header_str_col' => '',
+                'separator_col' => '',
+                'del_duplicate' => '',
+                'art_number' => '',
+                'availability' => '',
+                'color' => '',
+                'delivery_time' => '',
+                'new_used' => '',
+                'many_pages_col' => ''
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Настройки конвертера успешно сброшены.');
+    }
+
 }

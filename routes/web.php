@@ -208,4 +208,6 @@ Route::post('/convert-price-list', [ConverterSetController::class, 'convertPrice
 
 Route::view('/fromlist', 'adverts.createFromList')->name('fromlist');
 
-   Route::post('/get-settings', [ConverterSetController::class, 'getSettings'])->name('get.settings');
+Route::post('/get-settings', [ConverterSetController::class, 'getSettings'])->name('get.settings');
+
+Route::post('/reset-converter-set', [ConverterSetController::class, 'reset'])->name('converter_set.reset');

@@ -1,9 +1,32 @@
-<link rel="shortcut icon" href="{{asset('images/Group 438.png')}}" type="image/x-icon">
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Настройки конвертера</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="shortcut icon" href="{{asset('images/Group 438.png')}}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{asset('images/Group 438.png')}}" type="image/x-icon">
+
+    <style>
+        .icon-text-hover:hover i,
+        .icon-text-hover:hover p {
+            color: #0077FF;
+        }
+    </style>
+</head>
 @include('components.header-seller')
-@section('content')
-<div class="container mx-auto p-4 mt-40 mb-20">
+
+<div class="mx-auto max-w-5xl flex flex-col items-center justify-center p-4 mt-28 mb-20">
     <h4 class="text-xl font-bold mb-4">Настройки конвертера</h4>
+
+
+    <h4 class="text-xl font-bold mb-4 self-start">Соответствие столбцов</h4>
+    <form action="{{ route('converter_set.reset') }}" method="POST" class="self-start" onsubmit="return confirmReset();">
+        @csrf
+        <button type="submit" class="btn btn-primary bg-gray-600 text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Сбросить выбор столбцов</button>
+    </form> 
 
     @if(session('success'))
         <div class="alert alert-success bg-green-100 text-green-700 p-4 rounded mb-4">
@@ -13,67 +36,69 @@
 
     <h5 class="text-lg font-bold mb-4">Выберите марки автомобилей которые есть в Вашем прайс-листе</h5>
 
-    <form action="{{ route('converter_set.update') }}" method="POST" class="space-y-4">
+    <form action="{{ route('converter_set.update') }}" method="POST" class="space-y-10 flex flex-col">
         @csrf
         @method('PUT')
 
-        @foreach ([
-            'acura',
-            'alfa_romeo',
-            'asia',
-            'aston_martin',
-            'audi',
-            'bentley',
-            'bmw',
-            'byd',
-            'cadillac',
-            'changan',
-            'chevrolet',
-            'citroen',
-            'daewoo',
-            'daihatsu',
-            'datsun',
-            'fiat',
-            'ford',
-            'gaz',
-            'geely',
-            'haval',
-            'honda',
-            'hyundai',
-            'infiniti',
-            'isuzu',
-            'jaguar',
-            'jeep',
-            'kia',
-            'lada',
-            'land_rover',
-            'mazda',
-            'mercedes_benz',
-            'mitsubishi',
-            'nissan',
-            'opel',
-            'peugeot',
-            'peugeot_lnonum',
-            'porsche',
-            'renault',
-            'skoda',
-            'ssangyong',
-            'subaru', 
-            'suzuki', 
-            'toyota', 
-            'uaz', 
-            'volkswagen', 
-            'volvo', 
-            'zaz'
-        ] as $brand)
-            <div class="flex items-center space-x-2">
-                <input type="hidden" name="{{ $brand }}" value="0">
-                <input class="form-check-input" type="checkbox" name="{{ $brand }}" id="{{ $brand }}" value="1" {{ isset($converterSet) && $converterSet->$brand ? 'checked' : '' }}>
-                <label class="form-check-label" for="{{ $brand }}">{{ ucfirst(str_replace('_', ' ', $brand)) }}</label>
-            </div>
-        @endforeach
+        <div class=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
+            @foreach ([
+                'acura',
+                'alfa_romeo',
+                'asia',
+                'aston_martin',
+                'audi',
+                'bentley',
+                'bmw',
+                'byd',
+                'cadillac',
+                'changan',
+                'chevrolet',
+                'citroen',
+                'daewoo',
+                'daihatsu',
+                'datsun',
+                'fiat',
+                'ford',
+                'gaz',
+                'geely',
+                'haval',
+                'honda',
+                'hyundai',
+                'infiniti',
+                'isuzu',
+                'jaguar',
+                'jeep',
+                'kia',
+                'lada',
+                'land_rover',
+                'mazda',
+                'mercedes_benz',
+                'mitsubishi',
+                'nissan',
+                'opel',
+                'peugeot',
+                'peugeot_lnonum',
+                'porsche',
+                'renault',
+                'skoda',
+                'ssangyong',
+                'subaru', 
+                'suzuki', 
+                'toyota', 
+                'uaz', 
+                'volkswagen', 
+                'volvo', 
+                'zaz'
+            ] as $brand)
+                <div class="flex items-center space-x-2">
+                    <input type="hidden" name="{{ $brand }}" value="0">
+                    <input class="form-check-input" type="checkbox" name="{{ $brand }}" id="{{ $brand }}" value="1" {{ isset($converterSet) && $converterSet->$brand ? 'checked' : '' }}>
+                    <label class="form-check-label" for="{{ $brand }}">{{ ucfirst(str_replace('_', ' ', $brand)) }}</label>
+                </div>
+            @endforeach
+        </div>
 
-        <h5 class="text-lg font-bold mb-4">Введите названия столбцов Вашего прайс-листа. Названия столбцов которых нет в Вашем прайс-листе оставьте пустыми</h5>
+        <h5 id="mth5" class="text-lg font-bold mb-4 mt-10">Введите названия столбцов Вашего прайс-листа. Названия столбцов которых нет в Вашем прайс-листе оставьте пустыми</h5>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="form-group">
@@ -216,7 +241,22 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Сохранить настройки</button>
+        <button type="submit" class="self-center btn btn-primary bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Сохранить настройки</button>
     </form>
 </div>
-@endsection
+<script>
+    function confirmReset() {
+        // Показываем диалоговое окно подтверждения
+        const confirmResult = confirm("Вы уверены, что хотите сбросить все настройки? Это действие нельзя отменить.");
+        
+        // Если пользователь нажал "Отмена", возвращаем false, чтобы отменить отправку формы
+        if (!confirmResult) {
+            return false;
+        }
+
+        // Если пользователь подтвердил, форма отправится
+        return true;
+    }
+</script>
+</body>
+</html>
